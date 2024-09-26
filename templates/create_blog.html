@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Blog</title>
+    <link rel="stylesheet" href="stylehome.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% load static %}
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6A899A;
+    padding: 10px 20px;
+}
+
+.nav-left a, .nav-right a {
+    text-decoration: none;
+    color: #333;
+    margin-right: 15px;
+}
+
+.nav-left img, .nav-right img {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+.search-bar {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.search-bar input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.header {
+    text-align: center;
+    border-bottom:solid 5px #b0c4de;
+    padding: 20px 0;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.back-button {
+    margin: 20px;
+}
+
+.back-button button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #6A899A;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    color: #6A899A;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.author-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.genre-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.category-select {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.image-browser {
+    width: 48%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    resize: none;
+    background-color: #f0f0f0;
+}
+
+textarea.synopsis-input {
+    height: 150px;
+}
+
+textarea.review-input {
+    height: 200px;
+}
+
+.post-button {
+    padding: 15px;
+    font-size: 18px;
+    background-color: #6A899A;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="/homepage">HOME</a>
+            <a href="#">ABOUT</a>
+            <a href="/profile">PROFILE</a>
+            <a href="https://www.amazon.in/hz/wishlist/ls/1L9ZMWSPOPPDM?ref_=wl_share">SHOP</a>
+            <div class="search-bar">
+                <input type="text" placeholder="SEARCH">
+                <button type="submit"></button>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="https://www.facebook.com/share/S4xCTYs9UeZxmGWd/?mibextid=qi2Omg"><img src="facebook-icon.png" alt="Facebook"></a>
+            <a href="https://www.instagram.com/enticing_anecdotes?igsh=cDFjanV1amRsNHB1"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="https://youtube.com/@vyshnavimanoj3684?si=Fyx_rveaOeo8lgC5"><img src="youtube-icon.png" alt="YouTube"></a>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>ENTICING ANECDOTES</h1>
+    </div>
+
+    <div class="back-button">
+        <button>&larr;</button>
+    </div>
+
+    <div class="container">
+        <h2>Create New Blog</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" placeholder="Blog title" class="title-input" id="title" name="title" required>
+            <input type="text" placeholder="Author" class="author-input" id="author" name="author" required>
+            <input type="text" placeholder="Add genres" class="genre-input" id="genre" name="genre" required>
+            <div class="input-group">
+                <input type="file" id="image" name="image">
+            </div>
+            <textarea placeholder="Write synopsis here..." class="synopsis-input" id="synopsis" name="synopsis" required></textarea>
+            <textarea placeholder="Write review here..." class="review-input" id="description" name="description" required></textarea>
+            <button type="submit" class="post-button">POST</button>
+        </form>
+    </div>
+</body>
+</html>
