@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Category(models.Model):  # main table
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     cat_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)

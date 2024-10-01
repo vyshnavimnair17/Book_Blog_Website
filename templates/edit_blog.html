@@ -3,177 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Blog</title>
+    <title>Edit Blog</title>
     <link rel="stylesheet" href="stylehome.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     {% load static %}
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
-}
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #6A899A;
-    padding: 10px 20px;
-}
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #004d61;
+            padding: 10px 20px;
+        }
 
-.nav-left a, .nav-right a {
-    text-decoration: none;
-    color: #333;
-    margin-right: 15px;
-}
+        .nav-left a, .nav-right a {
+            text-decoration: none;
+            color: white;
+            margin-right: 20px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
 
-.nav-left img, .nav-right img {
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
-}
+        .nav-left a:hover, .nav-right a:hover {
+            color: #4c6981;
+        }
 
-.search-bar {
-    display: inline-block;
-    margin-left: 20px;
-}
+        .nav-left img, .nav-right img {
+            width: 35px;
+            height: 35px;
+            vertical-align: middle;
+        }
 
-.search-bar input {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        .search-bar input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-.search-bar button {
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .search-bar button {
+            padding: 5px 5px;
+            border: none;
+            background-color: white;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.header {
-    text-align: center;
-    border-bottom:solid 5px #b0c4de;
-    padding: 20px 0;
-}
+        .search-bar button:hover {
+            background-color: #4c6981;
+        }
 
-.header h1 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-}
+        .header {
+            text-align: center;
+            border-bottom: solid 3px #004d61;
+            padding: 20px 0;
+            background-color: #f9f9f9;
+        }
 
-.back-button {
-    margin: 20px;
-}
+        .header h1 {
+            margin: 0;
+            font-size: 48px;
+            color: #004d61;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-.back-button button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #6A899A;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
 
-h2 {
-    font-size: 24px;
-    color: #6A899A;
-    margin-bottom: 20px;
-}
+        h2 {
+            font-size: 28px;
+            color: #004d61;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-form {
-    display: flex;
-    flex-direction: column;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+        }
 
-.title-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    width: 100%;
-}
+        .title-input, .author-input, .genre-input, .synopsis-input, .review-input {
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            width: 100%;
+            background-color: #f0f0f0;
+        }
 
-.author-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    width: 100%;
-}
+        .input-group {
+            margin-bottom: 20px;
+        }
 
-.genre-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    width: 100%;
-}
+        input[type="file"] {
+            font-size: 16px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            width: 100%;
+        }
 
-.input-group {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+        textarea {
+            resize: none;
+        }
 
-.category-select {
-    width: 48%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        textarea.synopsis-input {
+            height: 150px;
+        }
 
-.image-browser {
-    width: 48%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-    cursor: pointer;
-}
+        textarea.review-input {
+            height: 200px;
+        }
 
-textarea {
-    width: 100%;
-    padding: 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
-    resize: none;
-    background-color: #f0f0f0;
-}
+        .post-button {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #004d61;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-textarea.synopsis-input {
-    height: 150px;
-}
-
-textarea.review-input {
-    height: 200px;
-}
-
-.post-button {
-    padding: 15px;
-    font-size: 18px;
-    background-color: #6A899A;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .post-button:hover {
+            background-color: #4c6981;
+        }
     </style>
 </head>
 <body>
@@ -183,15 +161,15 @@ textarea.review-input {
             <a href="#">ABOUT</a>
             <a href="/profile">PROFILE</a>
             <a href="https://www.amazon.in/hz/wishlist/ls/1L9ZMWSPOPPDM?ref_=wl_share">SHOP</a>
-            <div class="search-bar">
-                <input type="text" placeholder="SEARCH">
-                <button type="submit"></button>
-            </div>
         </div>
-        <div class="nav-right">
-            <a href="https://www.facebook.com/share/S4xCTYs9UeZxmGWd/?mibextid=qi2Omg"><img src="facebook-icon.png" alt="Facebook"></a>
-            <a href="https://www.instagram.com/enticing_anecdotes?igsh=cDFjanV1amRsNHB1"><img src="instagram-icon.png" alt="Instagram"></a>
-            <a href="https://youtube.com/@vyshnavimanoj3684?si=Fyx_rveaOeo8lgC5"><img src="youtube-icon.png" alt="YouTube"></a>
+        <div class="search-bar">
+                <form method="POST" action="/search/">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="search">
+                <button type="submit">
+                    <ion-icon name="search-outline" style="color:black;"></ion-icon>
+                </button>
+                </form>
         </div>
     </div>
 
@@ -199,12 +177,8 @@ textarea.review-input {
         <h1>ENTICING ANECDOTES</h1>
     </div>
 
-    <div class="back-button">
-        <button>&larr;</button>
-    </div>
-
     <div class="container">
-        <h2>Create New Blog</h2>
+        <h2>Edit Blog</h2>
         <form method="POST">
             {% csrf_token %}
             <input type="text" placeholder="Blog title" class="title-input" id="title" name="title" required>

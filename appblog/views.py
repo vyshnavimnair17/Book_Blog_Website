@@ -1,13 +1,22 @@
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate, logout as auth_logout
 from django.shortcuts import render, redirect
 from .models import *
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-
+@login_required(login_url='/login')
 def homepage(request):
     home = Category.objects.all()
     return render(request, 'homepage.html', {"data": home})
+
+
+@login_required(login_url='/login')
+def about(request):
+    bio = Category.objects.all()
+    return render(request, 'About.html', {"data": bio})
 
 
 def login(request):
@@ -15,15 +24,21 @@ def login(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
 
-        user = User.objects.filter(username=username, password=password)
-
-        if user.exists():
+        user = authenticate(username=username, password=password)
+        print(user)
+        if user:
+            print("user entered")
             auth_login(request, user)
-            return redirect('/appblog')
+            return redirect('/homepage/')
         else:
-            return redirect('/login')
+            return redirect('/login/')
 
     return render(request, 'login.html')
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('/login')
 
 
 def register(request):
@@ -34,7 +49,7 @@ def register(request):
         password = request.POST.get("password")
 
         if User.objects.filter(username=username).exists() or User.objects.filter(password=password).exists():
-            return redirect('/register')
+            return redirect('/')
 
         user = User.objects.create_user(
             username=username,
@@ -45,15 +60,28 @@ def register(request):
         user.set_password(password)
         user.save()
 
-        return redirect('/homepage')
+        return redirect('/login')
     return render(request, 'register.html')
 
 
+def search(request):
+    if request.method == "POST":
+        search_obj = request.POST.get("search")
+        items = Category.objects.filter(Q(title__icontains=search_obj) | Q(author__icontains=search_obj))
+        return render(request, 'search.html', {"data": items})
+    else:
+        return render(request, 'results.html')
+
+
+@login_required(login_url='/login')
 def profile(request):
-    user = Category.objects.all
-    return render(request, 'profile.html', {"data": user})
+    if request.user:
+        user = Category.objects.filter(user_id=request.user)
+        print(user)
+        return render(request, 'profile.html', {"data": user})
 
 
+@login_required(login_url='/login')
 def add_blog(request):
     if request.method == 'POST':
         print(request.POST)
@@ -64,9 +92,22 @@ def add_blog(request):
         item.description = request.POST.get("description")
         item.image = request.POST.get("image")
         item.genre = request.POST.get("genre")
+        item.user_id = request.user
         item.save()
         return redirect('/profile')
     return render(request, 'create_blog.html')
+
+
+@login_required(login_url='/login')
+def add_bio(request):
+    if request.method == 'POST':
+        print(request.POST)
+        bio = Category()
+        bio.img = request.POST.get("image")
+        bio.about = request.POST.get("bio")
+        bio.save()
+        return redirect('/about')
+    return render(request, 'Bio_form.html')
 
 
 # 1 Currently Reading table
@@ -75,9 +116,10 @@ def current(request, cat_id):
     print(read)
     read_obj = Current(curr_read=read)
     read_obj.save()
-    return redirect('/profile')
+    return redirect('/currentbook')
 
 
+@login_required(login_url='/login')
 def current_display(request):
     current_obj = Current.objects.all()
     print(current_obj.values())
@@ -90,7 +132,7 @@ def review(request, cat_id):
     print(bookrev)
     book_obj = Review(review=bookrev)
     book_obj.save()
-    return redirect('/profile')
+    return redirect('/bookreview')
 
 
 def review_display(request):
@@ -99,8 +141,8 @@ def review_display(request):
     return render(request, 'book_review.html', {'data': rev_obj})
 
 
-def book_detail(request):
-    book = Review.objects.all()
+def book_detail(request, rev_id):
+    book = Review.objects.get(rev_id=rev_id)
     return render(request, 'description.html', {"data": book})
 
 
@@ -110,9 +152,10 @@ def tbr(request, cat_id):
     print(list)
     list_obj = Tbr(toread=list)
     list_obj.save()
-    return redirect('/profile')
+    return redirect('/tbrdisplay')
 
 
+@login_required(login_url='/login')
 def tbr_display(request):
     tbr_obj = Tbr.objects.all()
     print(tbr_obj.values())
@@ -125,9 +168,10 @@ def favourite(request, cat_id):
     print(fav)
     fav_obj = Favourites(fav_read=fav)
     fav_obj.save()
-    return redirect('/profile')
+    return redirect('/fav_display')
 
 
+@login_required(login_url='/login')
 def fav_display(request):
     year_obj = Favourites.objects.all()
     print(year_obj.values())
@@ -140,9 +184,10 @@ def month(request, cat_id):
     print(wrap)
     wrap_obj = Wrapup(month=wrap)
     wrap_obj.save()
-    return redirect('/profile')
+    return redirect('/monthdisplay')
 
 
+@login_required(login_url='/login')
 def month_display(request):
     month_obj = Wrapup.objects.all()
     print(month_obj.values())
@@ -155,9 +200,10 @@ def recom(request, cat_id):
     print(table)
     table_obj = Recommendation(recommend=table)
     table_obj.save()
-    return redirect('/profile')
+    return redirect('/recom_display')
 
 
+@login_required(login_url='/login')
 def recom_display(request):
     recom_obj = Recommendation.objects.all()
     print(recom_obj.values())
@@ -165,6 +211,7 @@ def recom_display(request):
 
 
 # Edit blog
+@login_required(login_url='/login')
 def edit_blog(request, cat_id):
     user = Category.objects.get(cat_id=cat_id)
     if request.method == "POST":
@@ -180,6 +227,7 @@ def edit_blog(request, cat_id):
 
 
 # Delete blog
+@login_required(login_url='/login')
 def delete_blog(request, cat_id):
     dlt_item = Category.objects.get(cat_id=cat_id)
     dlt_item.delete()
