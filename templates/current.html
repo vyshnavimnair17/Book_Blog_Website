@@ -29,7 +29,8 @@
             text-decoration: none;
             color: white;
             margin-right: 20px;
-            font-size: 16px;
+            margin-left: 70px;
+            font-size: 20px;
             transition: color 0.3s ease;
         }
 
@@ -125,14 +126,33 @@
             color: #2e3d49;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .synopsis a{
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            text-decoration: none;
+            background-color: #004d61;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .synopsis a:hover {
+            background-color: #4c6981;
+        }
+
+        .cover {
+
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="nav-left">
             <a href="/homepage">HOME</a>
-            <a href="#">ABOUT</a>
-            <a href="/profile">PROFILE</a>
+            <a href="/profile">BLOG</a>
             <a href="https://www.amazon.in/hz/wishlist/ls/1L9ZMWSPOPPDM?ref_=wl_share">SHOP</a>
         </div>
         <div class="search-bar">
@@ -147,21 +167,23 @@
     </div>
 
     <div class="header">
-        <h1>NAME</h1>
+        <h1>{{user}}</h1>
     </div>
 
     <div class="content">
         <h2>CURRENT READ</h2>
         {% for x in data %}
-        <div class="current-read">
-            <div>
+        <div class="current-read" >
+            <div class="cover">
                 <img src="{{x.curr_read.image.url}}" alt="Book Cover">
-                <p><b>Title: </b>{{x.curr_read.title}}</p>
-                <p><b>Author: </b>{{x.curr_read.author}}</p>
-                <p><b>Genre: </b>{{x.curr_read.genre}}</p>
+                <p style="color: #004d61;"><b>Title: </b>{{x.curr_read.title}}</p>
+                <p style="color: #004d61;"><b>Author: </b>{{x.curr_read.author}}</p>
+                <p style="color: #004d61;"><b>Genre: </b>{{x.curr_read.genre}}</p>
             </div>
             <div class="synopsis">
-                <p>{{x.curr_read.synopsis}}</p>
+                <h5 style="color: #004d61; font-weight: bold">Synopsis: </h5>
+                <p >{{x.curr_read.synopsis}}</p>
+                <a href="/remove_current/{{x.cur_id}}">Remove</a>
             </div>
         </div>
         {% endfor %}

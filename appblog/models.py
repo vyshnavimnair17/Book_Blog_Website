@@ -10,7 +10,7 @@ class Category(models.Model):  # main table
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     synopsis = models.TextField(default="synopsis")
-    image = models.ImageField(upload_to='', default=1)
+    image = models.ImageField(upload_to='', null=True)
     description = models.TextField(default="description")
     genre = models.CharField(max_length=255, default="genre")
 
@@ -37,6 +37,7 @@ class Review(models.Model):  # Book review table
 class Wrapup(models.Model):  # Monthly wrapup table
     mon_id = models.AutoField(primary_key=True)
     month = models.ForeignKey(Category, on_delete=models.CASCADE)
+    rev_mod = models.ForeignKey(Review, on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_table = "wrapup_table"
@@ -45,6 +46,7 @@ class Wrapup(models.Model):  # Monthly wrapup table
 class Recommendation(models.Model):  # recommendations table
     rec_id = models.AutoField(primary_key=True)
     recommend = models.ForeignKey(Category, on_delete=models.CASCADE)
+    rev_mod = models.ForeignKey(Review, on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_table = "recommendation_table"
@@ -61,6 +63,7 @@ class Tbr(models.Model):  # TBR list table
 class Favourites(models.Model):
     fav_id = models.AutoField(primary_key=True)
     fav_read = models.ForeignKey(Category, on_delete=models.CASCADE)
+    rev_mod = models.ForeignKey(Review, on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_table = "fav_table"

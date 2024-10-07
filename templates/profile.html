@@ -29,7 +29,8 @@
             text-decoration: none;
             color: white;
             margin-right: 20px;
-            font-size: 16px;
+            margin-left: 70px;
+            font-size: 20px;
             transition: color 0.3s ease;
         }
 
@@ -116,6 +117,7 @@
 
         td a {
             text-decoration: none;
+            color: #004d61;
         }
 
         tr:nth-child(even) {
@@ -153,8 +155,7 @@
     <div class="navbar">
         <div class="nav-left">
             <a href="/homepage">HOME</a>
-            <a href="#">ABOUT</a>
-            <a href="/profile">PROFILE</a>
+            <a href="/profile">BLOG</a>
             <a href="https://www.amazon.in/hz/wishlist/ls/1L9ZMWSPOPPDM?ref_=wl_share">SHOP</a>
         </div>
         <div class="search-bar">
@@ -169,11 +170,10 @@
     </div>
 
     <div class="header">
-        <h1>ENTICING ANECDOTES</h1>
+        <h1>{{user}}</h1>
     </div>
 
     <div class="container">
-        <h2>PROFILE</h2>
         <table>
             <thead>
                 <tr>
@@ -210,7 +210,7 @@
             <button type="submit"><a href="/addblog">Create</a></button>
         </div>
         <div class="logout">
-            <button class="fa fa-power-off"><a href="/logout"></a></button>
+            <button><a href="/logout">Logout</a></button>
         </div>
     </div>
 </body>

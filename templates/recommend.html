@@ -30,7 +30,8 @@
             text-decoration: none;
             color: white;
             margin-right: 20px;
-            font-size: 16px;
+            margin-left: 70px;
+            font-size: 20px;
             transition: color 0.3s ease;
         }
 
@@ -148,8 +149,7 @@
     <div class="navbar">
         <div class="nav-left">
             <a href="/homepage">HOME</a>
-            <a href="#">ABOUT</a>
-            <a href="/profile">PROFILE</a>
+            <a href="/profile">BLOG</a>
             <a href="https://www.amazon.in/hz/wishlist/ls/1L9ZMWSPOPPDM?ref_=wl_share">SHOP</a>
         </div>
         <div class="search-bar">
@@ -165,7 +165,7 @@
     </div>
 
     <div class="header">
-        <h1>ENTICING ANECDOTES</h1>
+        <h1>{{user}}</h1>
     </div>
 
     <div class="content">
@@ -176,7 +176,7 @@
                 <img src="{{x.recommend.image.url}}">
                 <p>{{x.recommend.title}}</p>
                 <p>by {{x.recommend.author}}</p>
-                <a href="/book/{{x.fav_id}}">Read</a>
+                <a href="/book_display/{{x.review.rev_id}}">Read</a>
             </div>
             {% endfor %}
         </div>
