@@ -175,7 +175,7 @@
                 <img src="{{x.fav_read.image.url}}">
                 <p>{{x.fav_read.title}}</p>
                 <p>by {{x.fav_read.author}}</p>
-                <a href="/book_display/{{x.rev_mod.rev_id}}">Read</a>
+                <a href="/book_display/{{x.fav_read.cat_id}}">Read</a>
                 <a href="/remove_fav/{{x.fav_id}}">Remove</a>
             </div>
             {% endfor %}

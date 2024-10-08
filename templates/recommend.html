@@ -176,7 +176,8 @@
                 <img src="{{x.recommend.image.url}}">
                 <p>{{x.recommend.title}}</p>
                 <p>by {{x.recommend.author}}</p>
-                <a href="/book_display/{{x.review.rev_id}}">Read</a>
+                <a href="/book_display/{{x.recommend.cat_id}}">Read</a>
+                <a href="/remove_rec/{{x.rec_id}}">Remove</a>
             </div>
             {% endfor %}
         </div>

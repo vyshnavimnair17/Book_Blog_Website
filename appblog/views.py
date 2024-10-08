@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+# LOGIN PAGE
 def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -30,6 +31,7 @@ def logout(request):
     return redirect('/login')
 
 
+# SIGN IN PAGE
 def register(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -53,6 +55,7 @@ def register(request):
     return render(request, 'register.html')
 
 
+# HOMEPAGE
 @login_required(login_url='/login')
 def homepage(request):
     if request.user:
@@ -60,6 +63,7 @@ def homepage(request):
         return render(request, 'homepage.html', {"data": home})
 
 
+# SEARCH
 def search(request):
     if request.method == "POST":
         search_obj = request.POST.get("search")
@@ -69,6 +73,7 @@ def search(request):
         return render(request, 'results.html')
 
 
+# BLOG TABLE
 @login_required(login_url='/login')
 def profile(request):
     if request.user:
@@ -77,7 +82,7 @@ def profile(request):
         return render(request, 'profile.html', {"data": user})
 
 
-# add blog
+# ADD POST
 @login_required(login_url='/login')
 def add_blog(request):
     if request.user:
@@ -96,7 +101,7 @@ def add_blog(request):
         return render(request, 'create_blog.html')
 
 
-# edit blog
+# EDIT POST
 @login_required(login_url='/login')
 def edit_blog(request, cat_id):
     if request.user:
@@ -113,7 +118,7 @@ def edit_blog(request, cat_id):
         return render(request, 'edit_blog.html', {"data": user})
 
 
-# Delete blog
+# DELETE POST
 @login_required(login_url='/login')
 def delete_blog(request, cat_id):
     dlt_item = Category.objects.get(cat_id=cat_id)
@@ -121,14 +126,14 @@ def delete_blog(request, cat_id):
     return redirect('/profile')
 
 
-# 1 Currently Reading table
+# 1 CURRENTLY READING
 def current(request, cat_id):
     if request.user:
         read = Category.objects.get(cat_id=cat_id)
         print(read)
         read_obj = Current(curr_read=read)
         read_obj.save()
-        return redirect('/currentbook')
+        return redirect('/profile')
 
 
 @login_required(login_url='/login')
@@ -138,14 +143,21 @@ def current_display(request):
     return render(request, 'current.html', {'data': current_obj})
 
 
-# Book Review table
+@login_required(login_url='/login')
+def remove_current(request, cur_id):
+    remove_item = Current.objects.get(cur_id=cur_id)
+    remove_item.delete()
+    return redirect('/currentbook')
+
+
+# BOOK REVIEWS
 def review(request, cat_id):
     if request.user:
         bookrev = Category.objects.get(cat_id=cat_id)
         print(bookrev)
         book_obj = Review(review=bookrev)
         book_obj.save()
-        return redirect('/bookreview')
+        return redirect('/profile')
 
 
 @login_required(login_url='/login')
@@ -156,22 +168,26 @@ def review_display(request):
 
 
 @login_required(login_url='/login')
-def book_detail(request, rev_id):
+def book_detail(request, cat_id):
     if request.user:
-        book = Review.objects.get(rev_id=rev_id)
+        book = Category.objects.get(cat_id=cat_id)
         return render(request, 'description.html', {"data": book})
 
 
-# Monthly Wrapup Table
+@login_required(login_url='/login')
+def remove_review(request, rev_id):
+    remove_post = Review.objects.get(rev_id=rev_id)
+    remove_post.delete()
+    return redirect('/bookreview')
+
+
+# MONTHLY WRAPUP
 def month(request, cat_id):
     if request.user:
         wrap = Category.objects.get(cat_id=cat_id)
-        review_instance = Review.objects.filter(review=wrap).first()
-        print(wrap)
-        print(review_instance)
-        wrap_obj = Wrapup(month=wrap, rev_mod=review_instance)
+        wrap_obj = Wrapup(month=wrap)
         wrap_obj.save()
-        return redirect('/monthdisplay')
+        return redirect('/profile')
 
 
 @login_required(login_url='/login')
@@ -181,15 +197,20 @@ def month_display(request):
     return render(request, 'wrapup.html', {"data": month_obj})
 
 
-# 2023 favourites
+@login_required(login_url='/login')
+def remove_month(request, mon_id):
+    remove_item = Wrapup.objects.get(mon_id=mon_id)
+    remove_item.delete()
+    return redirect('/monthdisplay')
+
+
+# 2023 FAVOURITES
 def favourite(request, cat_id):
     if request.user:
         fav = Category.objects.get(cat_id=cat_id)
-        review_instance = Review.objects.filter(review=fav).first()
-        print(fav)
-        fav_obj = Favourites(fav_read=fav, rev_mod=review_instance)
+        fav_obj = Favourites(fav_read=fav)
         fav_obj.save()
-        return redirect('/fav_display')
+        return redirect('/profile')
 
 
 @login_required(login_url='/login')
@@ -199,15 +220,20 @@ def fav_display(request):
     return render(request, 'favourite.html', {"data": year_obj})
 
 
-# Recommendations Table
+@login_required(login_url='/login')
+def remove_fav(request, fav_id):
+    remove_item = Favourites.objects.get(fav_id=fav_id)
+    remove_item.delete()
+    return redirect('/fav_display')
+
+
+# RECOMMENDATIONS
 def recom(request, cat_id):
     if request.user:
         table = Category.objects.get(cat_id=cat_id)
-        review_instance = Review.objects.filter(review=table).first()
-        print(table)
-        table_obj = Recommendation(recommend=table, rev_mod=review_instance)
+        table_obj = Recommendation(recommend=table)
         table_obj.save()
-        return redirect('/recom_display')
+        return redirect('/profile')
 
 
 @login_required(login_url='/login')
@@ -217,14 +243,20 @@ def recom_display(request):
     return render(request, 'recommend.html', {"data": recom_obj})
 
 
-# TBR list table
+@login_required(login_url='/login')
+def remove_rec(request, rec_id):
+    remove_item = Recommendation.objects.get(rec_id=rec_id)
+    remove_item.delete()
+    return redirect('/recom_display')
+
+
+# TBR
 def tbr(request, cat_id):
     if request.user:
         list = Category.objects.get(cat_id=cat_id)
-        print(list)
         list_obj = Tbr(toread=list)
         list_obj.save()
-        return redirect('/tbrdisplay')
+        return redirect('/profile')
 
 
 @login_required(login_url='/login')
@@ -235,35 +267,7 @@ def tbr_display(request):
 
 
 @login_required(login_url='/login')
-def remove_current(request, cur_id):
-    remove_item = Current.objects.get(cur_id=cur_id)
-    remove_item.delete()
-    return redirect('/profile')
-
-
-@login_required(login_url='/login')
-def remove_review(request, rev_id):
-    remove_post = Review.objects.get(rev_id=rev_id)
-    remove_post.delete()
-    return redirect('/profile')
-
-
-@login_required(login_url='/login')
-def remove_month(request, mon_id):
-    remove_item = Wrapup.objects.get(mon_id=mon_id)
-    remove_item.delete()
-    return redirect('/profile')
-
-
-@login_required(login_url='/login')
-def remove_fav(request, fav_id):
-    remove_item = Favourites.objects.get(fav_id=fav_id)
-    remove_item.delete()
-    return redirect('/profile')
-
-
-@login_required(login_url='/login')
 def remove_tbr(request, tbr_id):
     remove_item = Tbr.objects.get(tbr_id=tbr_id)
     remove_item.delete()
-    return redirect('/profile')
+    return redirect('/tbrdisplay')

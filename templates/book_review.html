@@ -174,10 +174,10 @@
                 <img src="{{x.review.image.url}}">
                 <p>{{x.review.title}}</p>
                 <p>by {{x.review.author}}</p>
-                <a href="/book_display/{{x.rev_id}}">Read</a>
+                <a href="/book_display/{{x.review.cat_id}}">Read</a>
                 <a href="/remove_post/{{x.rev_id}}">Remove</a>
             </div>
-             {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </body>

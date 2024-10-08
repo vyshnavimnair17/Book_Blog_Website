@@ -29,8 +29,9 @@ urlpatterns = [
                   path('remove_month/<int:mon_id>/', views.remove_month),
                   path('recommend/<int:cat_id>/', views.recom),  # 5
                   path('recom_display/', views.recom_display),  # 5
+                  path('remove_rec/<int:rec_id>/', views.remove_rec),
                   path('book/<int:cat_id>/', views.review),  # 6
                   path('bookreview/', views.review_display),  # 6
-                  path('book_display/<int:rev_id>/', views.book_detail),  # 6
+                  path('book_display/<int:cat_id>/', views.book_detail),  # 6
                   path('remove_post/<int:rev_id>/', views.remove_review),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
