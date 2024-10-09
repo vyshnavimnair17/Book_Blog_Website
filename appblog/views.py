@@ -65,12 +65,14 @@ def homepage(request):
 
 # SEARCH
 def search(request):
+    data = 'Valid'
     if request.method == "POST":
         search_obj = request.POST.get("search")
-        items = Category.objects.filter(Q(title__icontains=search_obj) | Q(author__icontains=search_obj))
-        return render(request, 'search.html', {"data": items})
-    else:
-        return render(request, 'results.html')
+        if search_obj:
+            items = Category.objects.filter(Q(title__icontains=search_obj) | Q(author__icontains=search_obj))
+        else:
+            data = "No search item"
+    return render(request, 'search.html', {"msg": data, "item": items})
 
 
 # BLOG TABLE
